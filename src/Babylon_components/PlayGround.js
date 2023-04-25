@@ -1,5 +1,6 @@
 import * as BABYLON from 'babylonjs'
-import * as MATERIALS from 'babylonjs-materials'
+
+
 
 /**
  * Creates a default playground with collisions
@@ -26,10 +27,10 @@ export function PlayGround({playground_width=50,playground_depth=50,walls_width=
     var wallR = BABYLON.MeshBuilder.CreateBox("wallR", { width: walls_width, height: walls_height, depth: playground_depth },scene)
     wallR.position.set(playground_width/2+walls_width/2, walls_height/2 ,0)
 
-    wallF.visibility=0.2;
-    wallB.visibility=0.2;
-    wallL.visibility=0.2;
-    wallR.visibility=0.2;
+    wallF.visibility=0.1;
+    wallB.visibility=0.1;
+    wallL.visibility=0.1;
+    wallR.visibility=0.1;
 
     ground.checkCollisions=true;
     wallF.checkCollisions=true;
@@ -42,25 +43,6 @@ export function PlayGround({playground_width=50,playground_depth=50,walls_width=
     ground.addChild(wallL);
     ground.addChild(wallR);
 
-    ground.position = new BABYLON.Vector3(0,0,0);
-    
-    var ground_base_color = new BABYLON.StandardMaterial("ground_base_color", scene)
-    ground_base_color.diffuseColor =  new BABYLON.Color3(1,1,1);
-    ground.material = ground_base_color;
-  
-  
-    var gridground=ground.clone("gridground");
-    gridground.position.y= ground.position.y+0.001;
-    var grid_ground_material = new MATERIALS.GridMaterial("groundmaterial", scene)
-    grid_ground_material.majorUnitFrequency = 5;
-    grid_ground_material.minorUnitVisibility = 0.45;
-    grid_ground_material.gridRatio = 1;
-    grid_ground_material.backFaceCulling = false;
-    grid_ground_material.mainColor = new BABYLON.Color3(0, 0, 1);
-    grid_ground_material.lineColor = new BABYLON.Color3(1, 0, 0);
-    grid_ground_material.opacity = 0.98;
-  
-    gridground.material = grid_ground_material;
 
     return {ground, wallF, wallB, wallL, wallR};
 

@@ -39,7 +39,6 @@ const onSceneReady = async (e = { engine: new BABYLON.Engine, scene: new BABYLON
 
   scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.AmmoJSPlugin(true, await ammo()));
 
-
   var ground_impostor = new BABYLON.PhysicsImpostor(playground.ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
   playground.ground.physicsImpostor = ground_impostor;
 
