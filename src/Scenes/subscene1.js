@@ -29,5 +29,57 @@ import "babylonjs-loaders";
     //then we apply the material to the box
     box.material = material;
 
+    //create a panel 
+
+
+
+
+
+    //crear boton
+    /*
+      var advancedTextureFullScreen = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, subScene);
+
+      var button1 = GUI.Button.CreateSimpleButton("but1", "A modo XR");
+      button1.width = "150px"
+      button1.height = "40px";
+      button1.color = "white";
+      button1.background = "green";
+      button1.onPointerUpObservable.add(function() {
+         //indexScene = 0;
+         engine.switchFullscreen(true);
+         engine.enterFullscreen(true);
+         engine.enterXR();
+      });
+      advancedTextureFullScreen.addControl(button1);
+      */
+      // GUI
+
+      var advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, subScene);
+      var button = null;
+      
+      //create a GUI button
+      button = GUI.Button.CreateSimpleButton("but", "A la zona de juegos!");
+      button.width = 0.2;
+      button.height = "40px";
+      button.color = "white";
+      button.background = "green";
+      button.top = "10px";
+      button.left = "10px";
+      button.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+      button.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+
+      console.log("subScene");
+      
+      button.onPointerUpObservable.add(function () {
+        
+        window.sceneIndices = 2;
+        subScene.dispose();
+      
+      
+      });
+      
+      
+      advancedTexture.addControl(button);
+
     return subScene;
  }

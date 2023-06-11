@@ -10,8 +10,8 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route exact path='/' element={<Intro/>}></Route>
-          <Route path='/tema_1' element={<Tema_1_figuras/>}></Route>
+          <Route exact path='/' element={<Tema_1_figuras/>}></Route>
+          <Route path='/tema_1' element={<Intro/>}></Route>
       </Routes>
     </Router>
 )}

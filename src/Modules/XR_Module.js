@@ -149,7 +149,7 @@ export async function XR_Experience(ground, skybox, scene) {
 
 
         // GUI
-        var meshGUI = BABYLON.MeshBuilder.CreatePlane("plane", {
+        /*var meshGUI = BABYLON.MeshBuilder.CreatePlane("plane", {
             width: 1 * 1.8,
             height: 1,
             sideOrientation: BABYLON.Mesh.DOUBLESIDE
@@ -168,7 +168,7 @@ export async function XR_Experience(ground, skybox, scene) {
 
         advancedTexture.addControl(container);
         advancedTexture.scaleTo(300, 150);
-
+/*
         var button1 = GUI.Button.CreateSimpleButton("but1", "A modo XR");
         //button1.width = "400px";
         //button1.height = "100px";
@@ -190,11 +190,106 @@ export async function XR_Experience(ground, skybox, scene) {
         advancedTexture.addControl(button1);
 
         meshGUI.position.addInPlaceFromFloats(0, 2, 0);
-
+*/
 
         console.log("Se ha cargado funciones XR satisfactoriamente.");
         return xrExperience;
     })
+
+
+}
+
+
+/**
+ * 
+ * @param {BABYLON.WebXRDefaultExperience} xrExperience 
+ * @param {GUI.AdvancedDynamicTexture} advancedTextureFullScreen 
+ * @param {BABYLON.Scene} scene 
+ */
+function basicAnchorSystem(xrExperience, advancedTextureFullScreen, scene) {
+
+    const { featuresManager } = xrExperience.baseExperience;
+
+    featuresManager.enableFeature(BABYLON.WebXRBackgroundRemover);
+
+    // step 1 - enable hit test and anchor system from the features manager. 
+
+    const hitTest = featuresManager.enableFeature(BABYLON.WebXRHitTest, 'latest');
+
+    const anchorSystem = featuresManager.enableFeature(BABYLON.WebXRAnchorSystem, 'latest');
+
+    // Step 2 - create a dot (sphere) that will be used to show the hit test result
+
+    const dot = BABYLON.SphereBuilder.CreateSphere('dot', {
+        diameter: 0.05
+    }, scene);
+    dot.rotationQuaternion = new BABYLON.Quaternion();
+
+    dot.material = new BABYLON.StandardMaterial('dot', scene);
+    dot.material.emissiveColor = BABYLON.Color3.Red();
+
+    dot.isVisible = false;
+
+    let lastHitTest = null;
+
+    const pairs = []; //measurement pair array
+    let currentPair = null; //current measurement pair
+
+    // Step 3 - listen to the hit test results and place the dot accordingly.
+
+    hitTest.onHitTestResultObservable.add((results) => {
+        //if we have a hit test result
+        if (results.length) {
+            //set the dot position to the hit test result
+            dot.isVisible = true;
+            results[0].transformationMatrix.decompose(dot.scaling, dot.rotationQuaternion, dot.position);
+            lastHitTest = results[0];
+
+        } else {
+            lastHitTest = null;
+            dot.isVisible = false;
+        }
+    });
+
+    // process to create pairs of dots
+    const processClick = () => {
+        const newDot = dot.clone('newDot');
+        
+            const label = new GUI.Rectangle("label");
+            label.background = "black"
+            label.height = "60px";
+            label.alpha = 0.5;
+            label.width = "200px";
+            label.cornerRadius = 20;
+            label.thickness = 1;
+            label.zIndex = 5;
+            advancedTextureFullScreen.addControl(label);
+
+            const text = new GUI.TextBlock("testlabel", "ancla");
+            text.color = "white";
+            text.fontSize = "36px"
+            label.addControl(text);
+
+            label.linkWithMesh(newDot);
+
+            return newDot;
+        } 
+       
+
+    // Step 4 - listen to the pointer down event to create an anchor
+    scene.onPointerObservable.add(async (eventData) => {
+        if (lastHitTest) {
+            if (lastHitTest.xrHitResult.createAnchor) {
+                const anchor = await anchorSystem.addAnchorPointUsingHitTestResultAsync(lastHitTest);
+            } else {
+                processClick();
+            }
+        }
+    }, BABYLON.PointerEventTypes.POINTERDOWN);
+
+    anchorSystem.onAnchorAddedObservable.add((anchor) => {
+        anchor.attachedNode = processClick();
+    });
 
 
 }
