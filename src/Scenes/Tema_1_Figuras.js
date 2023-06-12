@@ -11,7 +11,7 @@ import * as Babylon_Components from "../Babylon_components"
 import ammo from "ammo.js"
 import * as XR_Module from "../Modules/XR_Module"
 import { PlayGround } from "../Babylon_components/PlayGround";
-import { WindowUI, WindowUICreadorDeFiguras, WindowUIImagen, WindowUIVariasImagenes, VideoPlayerTexture } from "./WindowsUI";
+import { WindowUI, WindowUICreadorDeFiguras, WindowUIImagen, WindowUIVariasImagenes, VideoPlayerTexture, WindowUIVariasImagenesV2 } from "./WindowsUI";
 import cesped from "../Modules/cesped.jpg"
 import bienvenidaPreguntas from "../Modules/bienvenidoPreguntas.png"
 import examenCubo from "../Modules/examenCubo.png"
@@ -26,6 +26,8 @@ import circuloImg from "../Modules/circuloImg.png"
 import cuadradoImg from "../Modules/cuadradoImg.png"
 import trianguloImg from "../Modules/trianguloImg.png"
 import rectanguloImg from "../Modules/rectanguloImg.png"
+import ayudaImg from "../Modules/ayuda.png"
+import preguntas2 from "../Modules/preguntasV2.png"
 
 
 import * as subscene1 from "./subscene1"
@@ -306,6 +308,8 @@ const onSceneReady = async (e = { engine: new BABYLON.Engine, scene: new BABYLON
 var panelCaja = null;
 var panelCajaImg = null;
 
+var verPreguntas2 = false;
+
 advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
 var buttonPreguntas = null;
 
@@ -322,6 +326,7 @@ buttonPreguntas.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
 
 var enZonaDePreguntas = false;
 buttonPreguntas.onPointerUpObservable.add(function () {
+    
     enZonaDePreguntas = true;
 //   indexScene = 1;
 //   window.sceneIndices = 1;
@@ -336,6 +341,11 @@ buttonAJuegos.isVisible = true;
 
 panelExamen.isVisible = true;
 barraExamen.isVisible = true;
+
+if (panelExamen2 !== undefined){
+    panelExamen2.isVisible = true;
+    barraExamen2.isVisible = true;   
+}
 	
 if (panelCaja !== null){
     panelCaja.isVisible = false;
@@ -377,6 +387,7 @@ advancedTexture.addControl(buttonPreguntas);
 
 var buttonAJuegos = null;
 
+
 //create a GUI button
 buttonAJuegos = GUI.Button.CreateSimpleButton("but", "A la zona de juegos!");
 buttonAJuegos.isVisible = false;
@@ -401,6 +412,11 @@ buttonPreguntas.isVisible = true;
 
 panelExamen.isVisible = false;
 barraExamen.isVisible = false;
+
+if (panelExamen2 !== undefined){
+    panelExamen2.isVisible = false;
+    barraExamen2.isVisible = false;
+}
 
 
 if (panelCaja !== null){
@@ -973,7 +989,7 @@ containerMeshesPreguntas.meshes.push( panelImagen, panelExamen, barraExamen);
 
 var panelImagen = WindowUIImagen("Panel imagen",1920,1080,introduccionImg,scene);
 
-var [barraExamen,panelExamen] = WindowUIVariasImagenes("Panel examen",1920,1080,bienvenidaPreguntas,scene);
+var [barraExamen, panelExamen,barraExamen2 ,panelExamen2] = WindowUIVariasImagenes("Panel examen",1920,1080,bienvenidaPreguntas,scene);
 
 barraExamen.position.x = 0;
 barraExamen.position.y = 2;
@@ -983,6 +999,51 @@ barraExamen.rotate(BABYLON.Axis.X, Math.PI/6, BABYLON.Space.LOCAL);
 
 barraExamen.isVisible = false;
 panelExamen.isVisible = false;
+
+/////////segundo panel de preguntas///////
+
+// var [barraExamen2 ,panelExamen2] = WindowUIVariasImagenesV2("Panel segundo examen",1920,1080,preguntas2,scene);
+
+
+
+// barraExamen2.position.x = 3;
+// barraExamen2.position.y = 2;
+// barraExamen2.position.z = -12;
+// barraExamen2.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
+// barraExamen2.rotate(BABYLON.Axis.X, Math.PI/6, BABYLON.Space.LOCAL);
+
+// barraExamen2.isVisible = false;
+// panelExamen2.isVisible = false;
+
+
+
+
+
+///////////////////////////////boton de ayuda ////////////////////////////
+var buttonAyuda = null
+buttonAyuda = GUI.Button.CreateSimpleButton("ayuda", "ayuda");
+buttonAyuda.width = "150px"
+buttonAyuda.height = "40px";
+buttonAyuda.color = "white";
+buttonAyuda.background = "green";
+buttonAyuda.top = "-15px";
+buttonAyuda.left = "15px";
+////buttonAyuda.right = "15px";
+buttonAyuda.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+buttonAyuda.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+
+
+var panelAyuda = null;
+
+buttonAyuda.onPointerUpObservable.add(function () {
+    if (panelAyuda == null) {
+        panelAyuda = WindowUIImagen("Panel ayuda",1920,1080,ayudaImg,scene);
+    }
+    panelAyuda.isVisible = !panelAyuda.isVisible;
+});
+
+advancedTexture.addControl(buttonAyuda);
+
 
 ////////////////////////////////video de introduccion///////////////////////////////
 
