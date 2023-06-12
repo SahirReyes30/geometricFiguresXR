@@ -342,7 +342,7 @@ buttonAJuegos.isVisible = true;
 panelExamen.isVisible = true;
 barraExamen.isVisible = true;
 
-if (panelExamen2 !== undefined){
+if (panelExamen.metadata.pasoPrueba){
     panelExamen2.isVisible = true;
     barraExamen2.isVisible = true;   
 }
@@ -413,7 +413,7 @@ buttonPreguntas.isVisible = true;
 panelExamen.isVisible = false;
 barraExamen.isVisible = false;
 
-if (panelExamen2 !== undefined){
+if (panelExamen.metadata.pasoPrueba){
     panelExamen2.isVisible = false;
     barraExamen2.isVisible = false;
 }
@@ -989,7 +989,7 @@ containerMeshesPreguntas.meshes.push( panelImagen, panelExamen, barraExamen);
 
 var panelImagen = WindowUIImagen("Panel imagen",1920,1080,introduccionImg,scene);
 
-var [barraExamen, panelExamen,barraExamen2 ,panelExamen2] = WindowUIVariasImagenes("Panel examen",1920,1080,bienvenidaPreguntas,scene);
+var [barraExamen, panelExamen] = WindowUIVariasImagenes("Panel examen",1920,1080,bienvenidaPreguntas,scene);
 
 barraExamen.position.x = 0;
 barraExamen.position.y = 2;
@@ -1002,22 +1002,16 @@ panelExamen.isVisible = false;
 
 /////////segundo panel de preguntas///////
 
-// var [barraExamen2 ,panelExamen2] = WindowUIVariasImagenesV2("Panel segundo examen",1920,1080,preguntas2,scene);
+var [barraExamen2 ,panelExamen2] = WindowUIVariasImagenesV2("Panel segundo examen",1920,1080,preguntas2,scene);
 
+barraExamen2.position.x = 3;
+barraExamen2.position.y = 2;
+barraExamen2.position.z = -12;
+barraExamen2.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
+barraExamen2.rotate(BABYLON.Axis.X, Math.PI/6, BABYLON.Space.LOCAL);
 
-
-// barraExamen2.position.x = 3;
-// barraExamen2.position.y = 2;
-// barraExamen2.position.z = -12;
-// barraExamen2.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
-// barraExamen2.rotate(BABYLON.Axis.X, Math.PI/6, BABYLON.Space.LOCAL);
-
-// barraExamen2.isVisible = false;
-// panelExamen2.isVisible = false;
-
-
-
-
+barraExamen2.isVisible = false;
+panelExamen2.isVisible = false;
 
 ///////////////////////////////boton de ayuda ////////////////////////////
 var buttonAyuda = null
@@ -1086,9 +1080,15 @@ var pruebaVideo = AV_module.VideoTexture(video, scene);
 
 var sceneIndices = 0;
 window.sceneIndices = sceneIndices;
-
+var existe = false;
 var renderActual
 engine.runRenderLoop(() => {
+    
+    if (panelExamen.metadata.pasoPrueba && existe == false){
+    panelExamen2.isVisible = true;
+    barraExamen2.isVisible = true; 
+    existe = true;  
+}
 
 
 switch(window.sceneIndices){

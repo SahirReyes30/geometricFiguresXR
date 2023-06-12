@@ -640,6 +640,11 @@ export function WindowUIVariasImagenesV2(name,width,height,img,scene) {
         height: height * (0.001),
         sideOrientation: BABYLON.Mesh.DOUBLESIDE,
     }, scene);
+    
+    windowMesh.metadata = {
+        "pasoPrueba": false
+    }
+
 
 
     var ajust_pos = windowMesh.getBoundingInfo().boundingBox.maximum.y + barMesh.getBoundingInfo().boundingBox.maximum.y
@@ -845,6 +850,13 @@ export function WindowUIVariasImagenesV2(name,width,height,img,scene) {
                     if (respuestasCorrectas == 4){
                         indexImagen++;
                         windowRectangulo.source = imagenes[indexImagen];
+                        //pasoElExamen = true;
+                        windowMesh.metadata.pasoPrueba = true;
+                        //[barraExamen2 ,panelExamen2] = WindowUIVariasImagenesV2("Panel examen",1920,1080,bienvenidaPreguntas,scene);
+                        // barraExamen2.position.x = 3;
+                        // barraExamen2.position.y = 2;
+                        // barraExamen2.position.z = -12;
+                        // barraExamen2.rotate(new BABYLON.Vector3(0,1,0), Math.PI/8, BABYLON.Space.WORLD);
                     }else{
                         indexImagen=6;
                         windowRectangulo.source = imagenes[indexImagen];
@@ -1153,6 +1165,9 @@ export function WindowUIVariasImagenes(name,width,height,img,scene) {
         sideOrientation: BABYLON.Mesh.DOUBLESIDE,
     }, scene);
 
+    windowMesh.metadata = {
+        "pasoPrueba": false
+    }
 
     var ajust_pos = windowMesh.getBoundingInfo().boundingBox.maximum.y + barMesh.getBoundingInfo().boundingBox.maximum.y
     var change_axis = new BABYLON.Vector3(0, -ajust_pos, .02);
@@ -1192,6 +1207,7 @@ export function WindowUIVariasImagenes(name,width,height,img,scene) {
     windowGrid.addControl(window_image,0,0);*/
     
     //crea un array de imagenes iniciando con la que llega de parametro
+    //var imagenes = [img,examenAreaTriangulo, examenAreaRectangulo, examenVolumenCubo, examenAreaCilindro, pasaste2, noPasaste];
     var imagenes = [img,examenCubo, examenCilindro, examenEsfera, examenPiramide,pasaste,noPasaste];
     var indexImagen = 0;
 
@@ -1360,11 +1376,12 @@ export function WindowUIVariasImagenes(name,width,height,img,scene) {
                         indexImagen++;
                         windowRectangulo.source = imagenes[indexImagen];
                         pasoElExamen = true;
-                        [barraExamen2 ,panelExamen2] = WindowUIVariasImagenesV2("Panel examen",1920,1080,bienvenidaPreguntas,scene);
-                        barraExamen2.position.x = 3;
-                        barraExamen2.position.y = 2;
-                        barraExamen2.position.z = -12;
-                        barraExamen2.rotate(new BABYLON.Vector3(0,1,0), Math.PI/8, BABYLON.Space.WORLD);
+                        windowMesh.metadata.pasoPrueba = true;
+                        //[barraExamen2 ,panelExamen2] = WindowUIVariasImagenesV2("Panel examen",1920,1080,bienvenidaPreguntas,scene);
+                        // barraExamen2.position.x = 3;
+                        // barraExamen2.position.y = 2;
+                        // barraExamen2.position.z = -12;
+                        // barraExamen2.rotate(new BABYLON.Vector3(0,1,0), Math.PI/8, BABYLON.Space.WORLD);
                     }else{
                         indexImagen=6;
                         windowRectangulo.source = imagenes[indexImagen];
@@ -1486,6 +1503,7 @@ export function WindowUIVariasImagenes(name,width,height,img,scene) {
         value: 1
     });
 
+
     window_open.setKeys(keyframes2);
     window_rectangle_open.setKeys(keyframes2);
 
@@ -1578,10 +1596,10 @@ export function WindowUIVariasImagenes(name,width,height,img,scene) {
 
 
     });*/
-
+    
 
     //return {barMesh, bar_rectangle, windowMesh, window_rectangle}
-    return [barMesh,windowMesh,barraExamen2 ,panelExamen2];
+    return [barMesh,windowMesh];
 
 
 }
