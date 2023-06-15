@@ -11,7 +11,7 @@ import * as Babylon_Components from "../Babylon_components"
 import ammo from "ammo.js"
 import * as XR_Module from "../Modules/XR_Module"
 import { PlayGround } from "../Babylon_components/PlayGround";
-import { WindowUI, WindowUICreadorDeFiguras, WindowUIImagen, WindowUIVariasImagenes, VideoPlayerTexture, WindowUIVariasImagenesV2 } from "./WindowsUI";
+import { WindowUI, WindowUICreadorDeFiguras, WindowUIImagen, WindowUIVariasImagenes, VideoPlayerTexture, WindowUIVariasImagenesV2, WindowUIVariasImagenesV3 } from "./WindowsUI";
 import cesped from "../Modules/cesped.jpg"
 import bienvenidaPreguntas from "../Modules/bienvenidoPreguntas.png"
 import examenCubo from "../Modules/examenCubo.png"
@@ -28,6 +28,7 @@ import trianguloImg from "../Modules/trianguloImg.png"
 import rectanguloImg from "../Modules/rectanguloImg.png"
 import ayudaImg from "../Modules/ayuda.png"
 import preguntas2 from "../Modules/preguntasV2.png"
+import preguntas3 from "../Modules/preguntasV3.png"
 
 
 import * as subscene1 from "./subscene1"
@@ -334,7 +335,7 @@ buttonPreguntas.onPointerUpObservable.add(function () {
 //   containerMeshesAreajuegos.addAllToScene();
 //   console.log(window.sceneIndices);
 
-//containerMeshesAreajuegos.removeAllFromScene();
+///containerMeshesAreajuegos.removeAllFromScene();
 //containerMeshesPreguntas.addAllToScene();
 buttonPreguntas.isVisible = false;
 buttonAJuegos.isVisible = true;
@@ -345,6 +346,12 @@ barraExamen.isVisible = true;
 if (panelExamen.metadata.pasoPrueba){
     panelExamen2.isVisible = true;
     barraExamen2.isVisible = true;   
+}
+
+
+if (panelExamen2.metadata.pasoPrueba){
+    panelExamen3.isVisible = true;
+    barraExamen3.isVisible = true;
 }
 	
 if (panelCaja !== null){
@@ -380,6 +387,15 @@ if (panelCajaRectangulo !== null){
     panelRectanguloImg.isVisible = false;
 }
 
+
+buttonTriangulo.isVisible = false;
+button1.isVisible = false;
+buttonSphere.isVisible = false;
+buttonCilinder.isVisible = false;
+buttonCone.isVisible = false;
+buttonCirculo.isVisible = false;
+buttonCuadrado.isVisible = false;
+buttonRectangulo.isVisible = false;
 
 });
 
@@ -418,6 +434,11 @@ if (panelExamen.metadata.pasoPrueba){
     barraExamen2.isVisible = false;
 }
 
+if (panelExamen2.metadata.pasoPrueba){
+    panelExamen3.isVisible = false;
+    barraExamen3.isVisible = false;
+}
+
 
 if (panelCaja !== null){
     panelCaja.isVisible = true;
@@ -451,6 +472,17 @@ if (panelCajaRectangulo !== null){
     panelCajaRectangulo.isVisible = true;
     panelRectanguloImg.isVisible = true;
 }
+
+buttonTriangulo.isVisible = true;
+button1.isVisible = true;
+buttonSphere.isVisible = true;
+buttonCilinder.isVisible = true;
+buttonCone.isVisible = true;
+buttonCirculo.isVisible = true;
+buttonCuadrado.isVisible = true;
+buttonRectangulo.isVisible = true;
+
+
 
 
 });
@@ -974,9 +1006,9 @@ panel.addControl(createCylinderBtn);
 
 
 /////////containerscene////////
-var containerMeshesAreajuegos = new BABYLON.AssetContainer(scene);
-containerMeshesAreajuegos.meshes.push(meshGUITriangulo, meshGUIRectangulo, meshGUICuadrado, meshGUICirculo, meshGUIPiramid, meshGUISphere, meshGUICilinder, meshGUICirculo, meshGUIRectangulo, meshGUITriangulo, meshGUICuadrado, meshGUICirculo, meshGUIPiramid, meshGUISphere, meshGUICilinder, meshGUIRectangulo,meshGUIBox, meshGUITriangulo, meshGUICuadrado, meshGUICirculo, meshGUIPiramid, meshGUISphere, meshGUICilinder, meshGUIRectangulo, meshGUITriangulo, meshGUICuadrado, meshGUICirculo, meshGUIPiramid, meshGUISphere, meshGUICilinder, meshGUIRectangulo, meshGUITriangulo, meshGUICuadrado, meshGUICirculo, meshGUIPiramid, meshGUISphere, meshGUICilinder, meshGUIRectangulo, meshGUITriangulo, meshGUICuadrado, meshGUICirculo, meshGUIPiramid, meshGUISphere, meshGUICilinder);
-containerMeshesAreajuegos.addAllToScene();
+///var containerMeshesAreajuegos = new BABYLON.AssetContainer(scene);
+///containerMeshesAreajuegos.gui.push(buttonTriangulo);
+//containerMeshesAreajuegos.addAllToScene();0
 //containerMeshesAreajuegos.removeAllFromScene();
 
 var containerMeshesPreguntas = new BABYLON.AssetContainer(scene);
@@ -1012,6 +1044,20 @@ barraExamen2.rotate(BABYLON.Axis.X, Math.PI/6, BABYLON.Space.LOCAL);
 
 barraExamen2.isVisible = false;
 panelExamen2.isVisible = false;
+
+/////////tercer panel de preguntas///////
+
+var [barraExamen3 ,panelExamen3] = WindowUIVariasImagenesV3("Panel tercer examen",1920,1080,preguntas3,scene);
+
+barraExamen3.position.x = -3;
+barraExamen3.position.y = 2;
+barraExamen3.position.z = -12;
+barraExamen3.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
+barraExamen3.rotate(BABYLON.Axis.X, Math.PI/6, BABYLON.Space.LOCAL);
+
+barraExamen3.isVisible = false;
+panelExamen3.isVisible = false;
+
 
 ///////////////////////////////boton de ayuda ////////////////////////////
 var buttonAyuda = null
@@ -1080,14 +1126,20 @@ var pruebaVideo = AV_module.VideoTexture(video, scene);
 
 var sceneIndices = 0;
 window.sceneIndices = sceneIndices;
-var existe = false;
+var existe1 = false;
+var existe2 = false;
 var renderActual
 engine.runRenderLoop(() => {
     
-    if (panelExamen.metadata.pasoPrueba && existe == false){
+    if (panelExamen.metadata.pasoPrueba && existe1 == false){
     panelExamen2.isVisible = true;
     barraExamen2.isVisible = true; 
-    existe = true;  
+    existe1 = true;  
+}
+    if (panelExamen2.metadata.pasoPrueba && existe2 == false){
+    panelExamen3.isVisible = true;
+    barraExamen3.isVisible = true;
+    existe2 = true;
 }
 
 
